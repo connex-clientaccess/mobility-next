@@ -30,9 +30,10 @@ export default function Home() {
       const result = await data.json()
       console.log("Data from api:", result)
       const leadReturned = result.data[0];
-      console.log('LEad: ', leadReturned)
-      if(result.length === 0){
+      //console.log('LEad: ', leadReturned)
+      if(result.data.length === 0){
         //show message prompt
+        //console.log("nothing returned");
         setErrorVisible(true);
         showResult(false);
       }else{

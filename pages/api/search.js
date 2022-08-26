@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       }
     );
     const data = await result.json();
-    //console.log("Result of search", data);
+    console.log("Result of search", data);
     //console.log("POST");
     res.status(200).json({ data: data });
   } else {
