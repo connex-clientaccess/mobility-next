@@ -20,9 +20,27 @@ export default function Home() {
     setIsOpen(false);
   }
 
-  const clickFunction = () => {
+  const clickFunction = async () => {
     if (leadEmail !== "") {
-      //fetchData();
+      const bodyPayload = { email: leadEmail };
+      const data = await fetch("/api/search", {
+        method: "POST",
+        body: JSON.stringify(bodyPayload)
+      });
+      const result = await data.json()
+      console.log("Data from api:", result)
+      const leadReturned = result.data[0];
+      console.log('LEad: ', leadReturned)
+      if(result.length === 0){
+        //show message prompt
+        setErrorVisible(true);
+        showResult(false);
+      }else{
+        //show result
+        setLead(leadReturned);
+        showResult(true);
+        showClear(true);
+      }
     }
   };
 
@@ -53,15 +71,6 @@ export default function Home() {
     //console.log("Input Value: ", event.target.value);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetch("/api/search", {
-        method: "POST"
-      });
-      console.log("Data", data.json());
-    }
-    fetchData();
-  },[])
   return (
     <div className="App p-4 align-items-center">
     <div className="flex flex-wrap mx-3 mb-6">

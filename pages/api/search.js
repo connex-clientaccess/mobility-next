@@ -3,8 +3,11 @@ import fetch from "node-fetch";
 export default async function handler(req, res) {
   if (req.method === "POST") {
     // Process a POST request
+    const email = JSON.parse(req.body).email;
+    //console.log("body:", JSON.parse(body).email);
+    const params = new URLSearchParams(email);
     const result = await fetch(
-      `https://api.copper.com/developer_api/v1/leads/search?emails=reymio1@hotmail.com`,
+      `https://api.copper.com/developer_api/v1/leads/search?emails=${email}`,
       {
         method: "post",
         headers: {
@@ -16,7 +19,7 @@ export default async function handler(req, res) {
       }
     );
     const data = await result.json();
-    console.log(data);
+    //console.log("Result of search", data);
     //console.log("POST");
     res.status(200).json({ data: data });
   } else {
