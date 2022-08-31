@@ -20,6 +20,49 @@ export default function Home() {
     setIsOpen(false);
   }
 
+  const createLead = async () => {
+
+  }
+  const handleSubmit = async (event: any) => {
+    // Stop the form from submitting and refreshing the page.
+    event.preventDefault()
+
+    // Get data from the form.
+    const data = {
+      first: event.target.first.value,
+      last: event.target.last.value,
+      email: event.target.email.value,
+      street_address: event.target.street_address.value,
+      state: event.target.state.value,
+      city: event.target.city.value,
+      zip: event.target.zip.value
+    }
+    console.log("Body", JSON.stringify(data))
+
+    // API endpoint where we send form data.
+    const endpoint = '/api/lead'
+
+    // Form the request for sending data to the server.
+    const options = {
+      // The method is POST because we are sending data.
+      method: 'POST',
+      // Tell the server we're sending JSON.
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Body of the request is the JSON data we created above.
+      body: JSON.stringify(data),
+    }
+    // Send the form data to our forms API on Vercel and get a response.
+    const response = await fetch(endpoint, options)
+
+    // Get the response data from server as JSON.
+    // If server returns the name submitted, that means the form works.
+    const result = await response.json()
+    alert(`Lead Created Succesfully: ${result.data}`)
+
+  }
+
   const clickFunction = async () => {
     if (leadEmail !== "") {
       const bodyPayload = { email: leadEmail };
@@ -156,12 +199,13 @@ export default function Home() {
                   >
                     Create New Lead
                   </Dialog.Title>
+                  <form onSubmit={handleSubmit}>
                   <div className="mt-2">
                     <div className="flex flex-wrap -mx-3 mb-6">
                       <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                          id="grid-first-name"
+                          id="first"
                           type="text"
                           placeholder="Jane"
                         ></input>
@@ -169,7 +213,7 @@ export default function Home() {
                       <div className="w-full md:w-1/2 px-3">
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="grid-last-name"
+                          id="last"
                           type="text"
                           placeholder="Doe"
                         ></input>
@@ -179,13 +223,13 @@ export default function Home() {
                       <div className="w-full px-3">
                         <label
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="grid-password"
+                          htmlFor="email"
                         >
                           Email Address
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="grid-password"
+                          id="email"
                           type="email"
                           placeholder="lead@address.com"
                         ></input>
@@ -195,13 +239,13 @@ export default function Home() {
                       <div className="w-full px-3">
                         <label
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="grid-password"
+                          htmlFor="street_address"
                         >
                           Street Address
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="grid-password"
+                          id="street_address"
                           type="text"
                           placeholder="Enter the Street Address"
                         ></input>
@@ -211,13 +255,13 @@ export default function Home() {
                       <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="grid-city"
+                          htmlFor="city"
                         >
                           City
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="grid-city"
+                          id="city"
                           type="text"
                           placeholder="Albuquerque"
                         ></input>
@@ -225,14 +269,14 @@ export default function Home() {
                       <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="grid-state"
+                          htmlFor="state"
                         >
                           State
                         </label>
                         <div className="relative">
                           <select
                             className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="grid-state"
+                            id="state"
                           >
                             <option>New Mexico</option>
                             <option>Missouri</option>
@@ -252,13 +296,13 @@ export default function Home() {
                       <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="grid-zip"
+                          htmlFor="zip"
                         >
                           Zip
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="grid-zip"
+                          id="zip"
                           type="text"
                           placeholder="90210"
                         ></input>
@@ -268,13 +312,14 @@ export default function Home() {
 
                   <div className="mt-4">
                     <button
-                      type="button"
+                      type="submit"
                       className="inline-flex justify-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       onClick={closeModal}
                     >
                       Save
                     </button>
                   </div>
+                  </form>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
