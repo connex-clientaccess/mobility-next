@@ -6,11 +6,43 @@ import { Dialog, Transition } from '@headlessui/react'
 export default function Home() {
   const [lead, setLead] = useState({});
   const [leadEmail, setLeadEmail] = useState("");
+  const [contact_type_option, setContactTypeOptionSelected] = useState(0);
   const [found, showResult] = useState(false);
   const [notFoundError, setErrorVisible] = useState(false);
   const [clear, showClear] = useState(false);
   //const [modalIsOpen, setIsOpen] = useState(false);
   let [isOpen, setIsOpen] = useState(false)
+  let [isOpenPerson, setIsOpenPerson] = useState(false);
+  const [contact_types, setContactTypes] = useState([]);
+
+  useEffect(() => {
+    load_contact_types()
+  },[])
+
+  async function load_contact_types() {
+    //fetch contact types
+    // API endpoint where we send form data.
+    const endpoint = '/api/contact_types'
+
+    // Form the request for sending data to the server.
+    const options = {
+      // The method is POST because we are sending data.
+      method: 'GET',
+      // Tell the server we're sending JSON.
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+    }
+    // Send the form data to our forms API on Vercel and get a response.
+    const response = await fetch(endpoint, options)
+
+    // Get the response data from server as JSON.
+    // If server returns the name submitted, that means the form works.
+    const result = await response.json()
+    console.log(result)
+    setContactTypes(result.data);
+  }
 
   function openModal() {
     setIsOpen(true);
@@ -20,9 +52,19 @@ export default function Home() {
     setIsOpen(false);
   }
 
-  const createLead = async () => {
-
+  function openConvertPersonModal() {
+    setIsOpenPerson(true);
   }
+
+  function closeConvertPersonModal() {
+    setIsOpenPerson(false);
+  }
+
+  const handleContactTypeChange = (event: any) => {
+    console.log("Selected Option: ", event.target.value)
+    setContactTypeOptionSelected(event.target.value)
+  }
+
   const handleSubmit = async (event: any) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault()
@@ -63,6 +105,43 @@ export default function Home() {
 
   }
 
+  const handleSubmitConvertLeadToPerson = async (event: any) => {
+    // Stop the form from submitting and refreshing the page.
+    event.preventDefault()
+
+    // Get data from the form.
+    const data = {
+      contact_type: contact_type_option,
+      contact_id: (lead as any).id,
+      assigned_id: (lead as any).assigned_id,
+      name: (lead as any).name
+    }
+    console.log("Body", JSON.stringify(data))
+
+    // API endpoint where we send form data.
+    const endpoint = '/api/convert'
+
+    // Form the request for sending data to the server.
+    const options = {
+      // The method is POST because we are sending data.
+      method: 'POST',
+      // Tell the server we're sending JSON.
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Body of the request is the JSON data we created above.
+      body: JSON.stringify(data),
+    }
+    // Send the form data to our forms API on Vercel and get a response.
+    const response = await fetch(endpoint, options)
+
+    // Get the response data from server as JSON.
+    // If server returns the name submitted, that means the form works.
+    const result = await response.json()
+    alert(`Lead Converted to Person Succesfully: ${JSON.stringify(result.data)}`)
+
+  }
+
   const clickFunction = async () => {
     if (leadEmail !== "") {
       const bodyPayload = { email: leadEmail };
@@ -86,18 +165,6 @@ export default function Home() {
         showClear(true);
       }
     }
-  };
-
-  const convertLeadToCompany = () => {
-
-  };
-
-  const convertLeadToOpportunity = () => {
-
-  };
-
-  const convertLeadToPerson = () => {
-
   };
 
   const clearFunction = () => {
@@ -167,6 +234,7 @@ export default function Home() {
       ) : (
         <></>
       )}
+      {/* Create Lead Modal */}
         <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
@@ -278,9 +346,57 @@ export default function Home() {
                             className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="state"
                           >
-                            <option>New Mexico</option>
-                            <option>Missouri</option>
-                            <option>Texas</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="DC">District Of Columbia</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
                           </select>
                           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                             <svg
@@ -326,6 +442,81 @@ export default function Home() {
           </div>
         </Dialog>
       </Transition>
+      {/* End of Create Lead Modal */}
+
+      {/* Convert to Person Modal */}
+      <Transition appear show={isOpenPerson} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeConvertPersonModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    Convert Lead
+                  </Dialog.Title>
+                  <form onSubmit={handleSubmitConvertLeadToPerson}>
+                  <div className="mt-2">
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                      <div className="w-full px-3">
+                        <label
+                          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="email"
+                        >
+                          Set Contact Type
+                        </label>
+                        {contact_types.length !== 0 ? 
+                        <>
+                        <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        onChange={handleContactTypeChange}>
+                          {contact_types.map(({id, name}: any) => {
+                            return <option key={id} value={id}>{name}</option>
+                          })}
+                        </select>
+                        </> 
+                        : <></>}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4">
+                    <button
+                      type="submit"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={closeConvertPersonModal}
+                    >
+                      Convert {(lead as any).name} to a Person
+                    </button>
+                  </div>
+                  </form>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
     </div>
     {found ? (
       <div className="p-4">
@@ -346,8 +537,7 @@ export default function Home() {
           <div className="sm:col-span-1">
             <dt className="text-sm font-medium text-gray-500">Phone</dt>
             <dd className="mt-1 text-sm text-teal-900 font-bold" id="lead_phone">
-              {(lead as any).phone_numbers[0].number} ({(lead as any).phone_numbers[0].category}
-              )
+              {(lead as any).phone_numbers.length !== 0 ? (lead as any).phone_numbers[0].number (lead as any).phone_numbers[0].category : <></>}
             </dd>
           </div>
 
@@ -379,7 +569,7 @@ export default function Home() {
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={convertLeadToPerson}
+              onClick={openConvertPersonModal}
               id="convertLeadToPersonButton"
             >
               Convert Lead to Person
@@ -388,7 +578,7 @@ export default function Home() {
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <button
               className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
-              onClick={convertLeadToCompany}
+              //onClick={convertLeadToCompany}
               id="convertLeadToPersonButton"
             >
               Convert Lead to Company
@@ -397,7 +587,7 @@ export default function Home() {
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <button
               className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
-              onClick={convertLeadToOpportunity}
+              //onClick={convertLeadToOpportunity}
               id="convertLeadToPersonButton"
             >
               Convert Lead to Opportunity
