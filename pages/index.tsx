@@ -525,7 +525,7 @@ export default function Home() {
               Convert Lead to Person
             </button>
           </div>
-          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0 hidden">
             <button
               className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
               //onClick={convertLeadToCompany}
@@ -534,7 +534,7 @@ export default function Home() {
               Convert Lead to Company
             </button>
           </div>
-          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0 hidden">
             <button
               className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
               //onClick={convertLeadToOpportunity}
