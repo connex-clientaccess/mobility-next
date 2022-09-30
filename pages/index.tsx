@@ -487,7 +487,7 @@ export default function Home() {
           <div className="sm:col-span-1">
             <dt className="text-sm font-medium text-gray-500">Phone</dt>
             <dd className="mt-1 text-sm text-teal-900 font-bold" id="lead_phone">
-              {(lead as any).phone_numbers.length !== 0 ? (lead as any).phone_numbers[0].number (lead as any).phone_numbers[0].category : <></>}
+              {(lead as any).phone_numbers.length !== 0 ? (lead as any).phone_numbers[0].number : <></>}
             </dd>
           </div>
 
