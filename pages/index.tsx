@@ -12,6 +12,7 @@ export default function Home() {
   const [clear, showClear] = useState(false);
   const [owner_choices, setOwnerChoices] = useState([]);
   const [product_interest, setProductInterest] = useState([])
+  const [customer_sources, setCustomerSources] = useState([])
   //const [modalIsOpen, setIsOpen] = useState(false);
   let [isOpen, setIsOpen] = useState(false)
   let [isOpenPerson, setIsOpenPerson] = useState(false);
@@ -21,6 +22,7 @@ export default function Home() {
     load_contact_types()
     load_owner_choices()
     load_product_interests()
+    load_customer_sources()
   },[])
 
   async function load_contact_types() {
@@ -96,6 +98,31 @@ export default function Home() {
     const result = await response.json()
     console.log(result)
     setProductInterest(result.data);
+  }
+
+  async function load_customer_sources() {
+    //fetch contact types
+    // API endpoint where we send form data.
+    const endpoint = '/api/customer_sources'
+
+    // Form the request for sending data to the server.
+    const options = {
+      // The method is GET because we are retrieving data.
+      method: 'GET',
+      // Tell the server we're sending JSON.
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+    }
+    // Send the form data to our forms API on Vercel and get a response.
+    const response = await fetch(endpoint, options)
+
+    // Get the response data from server as JSON.
+    // If server returns the name submitted, that means the form works.
+    const result = await response.json()
+    console.log(result)
+    setCustomerSources(result.data);
   }
 
   function openModal() {
@@ -482,6 +509,42 @@ export default function Home() {
                         </select>
                         </> 
                         : <></>}
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                      <div className="w-full px-3">
+                        <label
+                          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="customer_sources"
+                        >
+                          Customer Sources
+                        </label>
+                        {customer_sources.length !== 0 ? 
+                        <>
+                        <select id='customer_sources' className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        >
+                          {customer_sources.map(({id, name}: any) => {
+                            return <option key={id} value={id}>{name}</option>
+                          })}
+                        </select>
+                        </> 
+                        : <></>}
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                      <div className="w-full px-3">
+                        <label
+                          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="description"
+                        >
+                          Description
+                        </label>
+                        <input
+                          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="description"
+                          type="text"
+                          placeholder="Enter the Street Address"
+                        ></input>
                       </div>
                     </div>
                   </div>
