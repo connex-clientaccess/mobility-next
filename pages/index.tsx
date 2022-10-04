@@ -10,6 +10,7 @@ export default function Home() {
   const [found, showResult] = useState(false);
   const [notFoundError, setErrorVisible] = useState(false);
   const [clear, showClear] = useState(false);
+  const [owner_choices, setOwnerChoices] = useState([])
   //const [modalIsOpen, setIsOpen] = useState(false);
   let [isOpen, setIsOpen] = useState(false)
   let [isOpenPerson, setIsOpenPerson] = useState(false);
@@ -17,6 +18,7 @@ export default function Home() {
 
   useEffect(() => {
     load_contact_types()
+    load_owner_choices()
   },[])
 
   async function load_contact_types() {
@@ -26,7 +28,7 @@ export default function Home() {
 
     // Form the request for sending data to the server.
     const options = {
-      // The method is POST because we are sending data.
+      // The method is GET because we are retrieving data.
       method: 'GET',
       // Tell the server we're sending JSON.
       headers: {
@@ -42,6 +44,31 @@ export default function Home() {
     const result = await response.json()
     console.log(result)
     setContactTypes(result.data);
+  }
+
+  async function load_owner_choices() {
+    //fetch contact types
+    // API endpoint where we send form data.
+    const endpoint = '/api/users_search'
+
+    // Form the request for sending data to the server.
+    const options = {
+      // The method is GET because we are retrieving data.
+      method: 'GET',
+      // Tell the server we're sending JSON.
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+    }
+    // Send the form data to our forms API on Vercel and get a response.
+    const response = await fetch(endpoint, options)
+
+    // Get the response data from server as JSON.
+    // If server returns the name submitted, that means the form works.
+    const result = await response.json()
+    console.log(result)
+    setOwnerChoices(result.data);
   }
 
   function openModal() {
@@ -372,6 +399,35 @@ export default function Home() {
                           type="text"
                           placeholder="90210"
                         ></input>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                      <div className="w-full px-3 mb-6 md:mb-0">
+                      <label
+                          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="state"
+                        >
+                          Owner
+                        </label>
+                        <div className="relative">
+                          <select
+                            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="state"
+                          >
+                          {owner_choices.map(({id, name}: any) => {
+                            return <option key={id} value={id}>{name}</option>
+                          })}
+                          </select>
+                          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg
+                              className="fill-current h-4 w-4"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
