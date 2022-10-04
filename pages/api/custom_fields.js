@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
 
+//get custom fields
 export default async function handler(req, res) {
   if (req.method === "GET") {
     const result = await fetch(
