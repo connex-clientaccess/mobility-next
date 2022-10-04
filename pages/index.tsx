@@ -470,7 +470,7 @@ export default function Home() {
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           htmlFor="owner"
                         >
-                          Owner
+                          Product Interest
                         </label>
                         {product_interest.length !== 0 ? 
                         <>

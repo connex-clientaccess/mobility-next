@@ -16,6 +16,9 @@ export default async function handler(req, res) {
       }
     );
     const data = await result.json();
-    res.status(200).json({ data: data });
+    const product_interest = data.filter(
+      (item) => item.name == "Product Interest"
+    );
+    res.status(200).json({ data: product_interest.options });
   }
 }
