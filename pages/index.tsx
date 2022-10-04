@@ -346,6 +346,22 @@ export default function Home() {
                         ></input>
                       </div>
                     </div>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                      <div className="w-full px-3">
+                        <label
+                          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="street_address"
+                        >
+                          Street Address
+                        </label>
+                        <input
+                          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="street_address"
+                          type="text"
+                          placeholder="Enter the Street Address"
+                        ></input>
+                      </div>
+                    </div>
                     <div className="flex flex-wrap -mx-3 mb-2">
                       <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label
@@ -405,7 +421,7 @@ export default function Home() {
                       <div className="w-full px-3 mb-6 md:mb-0">
                       <label
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="state"
+                          htmlFor="owner"
                         >
                           Owner
                         </label>
