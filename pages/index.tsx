@@ -10,7 +10,8 @@ export default function Home() {
   const [found, showResult] = useState(false);
   const [notFoundError, setErrorVisible] = useState(false);
   const [clear, showClear] = useState(false);
-  const [owner_choices, setOwnerChoices] = useState([])
+  const [owner_choices, setOwnerChoices] = useState([]);
+  const [product_interest, setProductInterest] = useState([])
   //const [modalIsOpen, setIsOpen] = useState(false);
   let [isOpen, setIsOpen] = useState(false)
   let [isOpenPerson, setIsOpenPerson] = useState(false);
@@ -19,6 +20,7 @@ export default function Home() {
   useEffect(() => {
     load_contact_types()
     load_owner_choices()
+    load_product_interests()
   },[])
 
   async function load_contact_types() {
@@ -69,6 +71,31 @@ export default function Home() {
     const result = await response.json()
     console.log(result)
     setOwnerChoices(result.data);
+  }
+
+  async function load_product_interests() {
+    //fetch contact types
+    // API endpoint where we send form data.
+    const endpoint = '/api/custom_fields'
+
+    // Form the request for sending data to the server.
+    const options = {
+      // The method is GET because we are retrieving data.
+      method: 'GET',
+      // Tell the server we're sending JSON.
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+    }
+    // Send the form data to our forms API on Vercel and get a response.
+    const response = await fetch(endpoint, options)
+
+    // Get the response data from server as JSON.
+    // If server returns the name submitted, that means the form works.
+    const result = await response.json()
+    console.log(result)
+    setProductInterest(result.data);
   }
 
   function openModal() {
@@ -423,13 +450,33 @@ export default function Home() {
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           htmlFor="owner"
                         >
-                          Street Address
+                          Owner
                         </label>
                         {owner_choices.length !== 0 ? 
                         <>
                         <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         >
                           {owner_choices.map(({id, name}: any) => {
+                            return <option key={id} value={id}>{name}</option>
+                          })}
+                        </select>
+                        </> 
+                        : <></>}
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                      <div className="w-full px-3">
+                        <label
+                          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="owner"
+                        >
+                          Owner
+                        </label>
+                        {product_interest.length !== 0 ? 
+                        <>
+                        <select id='product_interest' className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        >
+                          {product_interest.map(({id, name}: any) => {
                             return <option key={id} value={id}>{name}</option>
                           })}
                         </select>

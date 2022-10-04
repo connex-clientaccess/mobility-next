@@ -15,6 +15,7 @@ export default async function handler(req, res) {
       }
     );
     const data = await result.json();
+    console.log(data);
     var product_interest = data.filter((obj) => {
       return obj.name === "Product Interest";
     });
