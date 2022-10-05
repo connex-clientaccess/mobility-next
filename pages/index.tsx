@@ -134,7 +134,7 @@ export default function Home() {
 
   function sanitzePhoneNumber(input: any){
     let number = input;
-    console.log("phone_number");
+    console.log("phone_number: ", number);
     number = number.replace(/\(/g, ''); //remove opening bracket
     number = number.replace(/\)/g, ''); //remove closing bracket
     number = number.replace(/ /g, ''); //remove spaces
