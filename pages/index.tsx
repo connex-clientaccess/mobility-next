@@ -7,6 +7,8 @@ export default function Home() {
   const [lead, setLead] = useState({});
   const [leadEmail, setLeadEmail] = useState("");
   const [contact_type_option, setContactTypeOptionSelected] = useState(0);
+  const [owner_option, setOwnerOptionSelected] = useState(0);
+  const [customer_source_option, setCustomerSourceOption] = useState(0);
   const [found, showResult] = useState(false);
   const [notFoundError, setErrorVisible] = useState(false);
   const [clear, showClear] = useState(false);
@@ -142,8 +144,18 @@ export default function Home() {
   }
 
   const handleContactTypeChange = (event: any) => {
-    console.log("Selected Option: ", event.target.value)
+    console.log("Selected Option Contact Type: ", event.target.value)
     setContactTypeOptionSelected(event.target.value)
+  }
+
+  const handleOwnerChange = (event: any) => {
+    console.log("Selected Option Owner: ", event.target.value)
+    setOwnerOptionSelected(event.target.value)
+  }
+
+  const handleCustomerSourceChange = (event: any) => {
+    console.log("Selected Option Customer Source: ", event.target.value)
+    setCustomerSourceOption(event.target.value)
   }
 
   const handleSubmit = async (event: any) => {
@@ -158,7 +170,11 @@ export default function Home() {
       street_address: event.target.street_address.value,
       state: event.target.state.value,
       city: event.target.city.value,
-      zip: event.target.zip.value
+      zip: event.target.zip.value,
+      description: event.target.description.value,
+      owner: owner_option, 
+      customer_source: customer_source_option,
+      value: event.target.value.value
     }
     console.log("Body", JSON.stringify(data))
 
@@ -481,7 +497,8 @@ export default function Home() {
                         </label>
                         {owner_choices.length !== 0 ? 
                         <>
-                        <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        <select id='owner' className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        onChange={handleOwnerChange}
                         >
                           {owner_choices.map(({id, name}: any) => {
                             return <option key={id} value={id}>{name}</option>
@@ -495,7 +512,7 @@ export default function Home() {
                       <div className="w-full px-3">
                         <label
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="owner"
+                          htmlFor="product_interest"
                         >
                           Product Interest
                         </label>
@@ -522,6 +539,7 @@ export default function Home() {
                         {customer_sources.length !== 0 ? 
                         <>
                         <select id='customer_sources' className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        onChange={handleCustomerSourceChange}
                         >
                           {customer_sources.map(({id, name}: any) => {
                             return <option key={id} value={id}>{name}</option>
@@ -551,13 +569,13 @@ export default function Home() {
                       <div className="w-full px-3">
                         <label
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="value"
+                          htmlFor="lead_value"
                         >
                           Lead Value
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="value"
+                          id="lead_value"
                           type="number"
                           placeholder="20000"
                         ></input>
