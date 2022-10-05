@@ -10,6 +10,7 @@ export default function Home() {
   const [owner_option, setOwnerOptionSelected] = useState(0);
   const [customer_source_option, setCustomerSourceOption] = useState(0);
   const [product_interest_option, setProductInterestOption] = useState(0);
+  const [phone_type_option, setPhoneTypeOption] = useState("work");
   const [found, showResult] = useState(false);
   const [notFoundError, setErrorVisible] = useState(false);
   const [clear, showClear] = useState(false);
@@ -131,6 +132,15 @@ export default function Home() {
     setCustomerSourceOption(result.data[0].id)
   }
 
+  function sanitzePhoneNumber(input: any){
+    let number = input;
+    number = number.replace(/\(/g, ''); //remove opening bracket
+    number = number.replace(/\)/g, ''); //remove closing bracket
+    number = number.replace(/ /g, ''); //remove spaces
+    number = number.replace(/-/g, ''); //remove hyphens
+    return number;
+  }
+
   function openModal() {
     setIsOpen(true);
   }
@@ -167,6 +177,11 @@ export default function Home() {
     setProductInterestOption(event.target.value)
   }
 
+  const handlePhoneTypeChange = (event: any) => {
+    console.log("Selected Option Product Interest: ", event.target.value)
+    setPhoneTypeOption(event.target.value)
+  }
+
   const handleSubmit = async (event: any) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault()
@@ -176,15 +191,17 @@ export default function Home() {
       first: event.target.first.value,
       last: event.target.last.value,
       email: event.target.email.value,
-      street_address: event.target.street_address.value,
-      state: event.target.state.value,
-      city: event.target.city.value,
-      zip: event.target.zip.value,
-      description: event.target.description.value,
+      phone: sanitzePhoneNumber(event.target.phone_number), //format phone number removing chars
+      phone_type: phone_type_option,
+      street_address: event.target.street_address.value ? event.target.street_address.value : "N/A",
+      state: event.target.state.value ? event.target.state.value : "N/A",
+      city: event.target.city.value ? event.target.city.value : "N/A",
+      zip: event.target.zip.value ? event.target.zip.value : "N/A",
+      description: event.target.description.value ? event.target.description.value : "N/A",
       owner: owner_option,
       customer_source: customer_source_option,
       product_interest: product_interest_option,
-      value: event.target.lead_value.value
+      value: event.target.lead_value.value ? event.target.lead_value.value : 0
     }
     console.log("Body", JSON.stringify(data))
 
@@ -407,6 +424,38 @@ export default function Home() {
                           id="email"
                           type="email"
                           placeholder="lead@address.com"
+                        ></input>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                      <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                      <label
+                          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="phone_type"
+                        >
+                          Type
+                        </label>
+                        <select id='product_interest' className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        onChange={handlePhoneTypeChange}
+                        >
+                          <option value={"work"}>Work Phone</option>
+                          <option value={"mobile"}>Mobile Phone</option>
+                          <option value={"home"}>Home Phone</option>
+                          <option value={"other"}>Other Phone</option>
+                        </select>
+                      </div>
+                      <div className="w-full md:w-1/2 px-3">
+                      <label
+                          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="phone_number"
+                        >
+                          Phone Number
+                        </label>
+                        <input
+                          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="phone_number"
+                          type="text"
+                          placeholder="8001234567"
                         ></input>
                       </div>
                     </div>

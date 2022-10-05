@@ -11,8 +11,8 @@ export default async function handler(req, res) {
       },
       phone: [
         {
-          number: req.body.phone,
-          category: req.body.mobile,
+          number: req.body.phone_number,
+          category: req.body.phone_type,
         },
       ],
       address: {
