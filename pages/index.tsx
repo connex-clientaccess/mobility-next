@@ -174,7 +174,7 @@ export default function Home() {
       description: event.target.description.value,
       owner: owner_option, 
       customer_source: customer_source_option,
-      value: event.target.value.value
+      value: event.target.lead_value.value
     }
     console.log("Body", JSON.stringify(data))
 
