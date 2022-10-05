@@ -76,6 +76,7 @@ export default function Home() {
     const result = await response.json()
     console.log(result)
     setOwnerChoices(result.data);
+    setOwnerOptionSelected(result.data[0].id)
   }
 
   async function load_product_interests() {
@@ -101,6 +102,7 @@ export default function Home() {
     const result = await response.json()
     console.log(result)
     setProductInterest(result.data);
+    setProductInterestOption(result.data[0].id);
   }
 
   async function load_customer_sources() {
@@ -126,6 +128,7 @@ export default function Home() {
     const result = await response.json()
     console.log(result)
     setCustomerSources(result.data);
+    setCustomerSourceOption(result.data[0].id)
   }
 
   function openModal() {
