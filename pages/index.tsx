@@ -192,7 +192,7 @@ export default function Home() {
       first: event.target.first.value,
       last: event.target.last.value,
       email: event.target.email.value,
-      phone_number: sanitzePhoneNumber(event.target.phone_number), //format phone number removing chars
+      phone_number: sanitzePhoneNumber(event.target.phone_number.value), //format phone number removing chars
       phone_type: phone_type_option,
       street_address: event.target.street_address.value ? event.target.street_address.value : "N/A",
       state: event.target.state.value ? event.target.state.value : "N/A",
