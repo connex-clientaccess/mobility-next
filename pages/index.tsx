@@ -200,12 +200,12 @@ export default function Home() {
       body: JSON.stringify(data),
     }
     // Send the form data to our forms API on Vercel and get a response.
-    const response = await fetch(endpoint, options)
+    //const response = await fetch(endpoint, options)
 
     // Get the response data from server as JSON.
     // If server returns the name submitted, that means the form works.
-    const result = await response.json()
-    alert(`Lead Created Succesfully: ${result.data}`)
+    //const result = await response.json()
+    //alert(`Lead Created Succesfully: ${result.data}`)
 
   }
 
