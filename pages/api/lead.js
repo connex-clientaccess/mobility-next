@@ -16,6 +16,15 @@ export default async function handler(req, res) {
         postal_code: req.body.zip,
         country: "United States",
       },
+      details: req.body.description,
+      assignee_id: req.body.owner,
+      custom_fields: [
+        {
+          custom_field_definition_id: 79376,
+          value: req.body.product_interest,
+        },
+      ],
+      customer_source_id: req.body.customer_source,
     };
     // Send the data to the server in JSON format.
     const JSONdata = JSON.stringify(lead_data);

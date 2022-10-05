@@ -9,6 +9,7 @@ export default function Home() {
   const [contact_type_option, setContactTypeOptionSelected] = useState(0);
   const [owner_option, setOwnerOptionSelected] = useState(0);
   const [customer_source_option, setCustomerSourceOption] = useState(0);
+  const [product_interest_option, setProductInterestOption] = useState(0);
   const [found, showResult] = useState(false);
   const [notFoundError, setErrorVisible] = useState(false);
   const [clear, showClear] = useState(false);
@@ -158,6 +159,11 @@ export default function Home() {
     setCustomerSourceOption(event.target.value)
   }
 
+  const handleProductInterestChange = (event: any) => {
+    console.log("Selected Option Product Interest: ", event.target.value)
+    setProductInterestOption(event.target.value)
+  }
+
   const handleSubmit = async (event: any) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault()
@@ -172,8 +178,9 @@ export default function Home() {
       city: event.target.city.value,
       zip: event.target.zip.value,
       description: event.target.description.value,
-      owner: owner_option, 
+      owner: owner_option,
       customer_source: customer_source_option,
+      product_interest: product_interest_option,
       value: event.target.lead_value.value
     }
     console.log("Body", JSON.stringify(data))
@@ -503,6 +510,7 @@ export default function Home() {
                         {product_interest.length !== 0 ? 
                         <>
                         <select id='product_interest' className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        onChange={handleProductInterestChange}
                         >
                           {product_interest.map(({id, name}: any) => {
                             return <option key={id} value={id}>{name}</option>
