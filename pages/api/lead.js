@@ -9,6 +9,12 @@ export default async function handler(req, res) {
         email: req.body.email,
         category: "work",
       },
+      phone: [
+        {
+          number: req.body.phone,
+          category: req.body.mobile,
+        },
+      ],
       address: {
         street: req.body.street_address,
         city: req.body.city,
@@ -18,6 +24,7 @@ export default async function handler(req, res) {
       },
       details: req.body.description,
       assignee_id: req.body.owner,
+      monetary_value: req.body.lead_value,
       custom_fields: [
         {
           custom_field_definition_id: 79376,
